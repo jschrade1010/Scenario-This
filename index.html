@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Supply Chain Strategy Card Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Main Menu -->
+        <div id="menu-screen" class="screen active">
+            <div class="header">
+                <h1>🎮 Supply Chain Strategy Card Game</h1>
+                <p class="subtitle">Master supply chain decisions and climb the leaderboard!</p>
+            </div>
+            
+            <div class="menu-content">
+                <div class="menu-section">
+                    <h2>Get Ready for Strategic Challenges!</h2>
+                    <p>Answer supply chain questions, build streaks, and earn points!</p>
+                    
+                    <div class="input-group">
+                        <input 
+                            type="text" 
+                            id="player-name" 
+                            placeholder="Enter your name" 
+                            class="input-field"
+                            maxlength="50"
+                        >
+                        <button class="btn btn-primary" onclick="startGame()">🚀 Start Game</button>
+                    </div>
+                </div>
+                
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <button class="btn btn-secondary" onclick="showLeaderboard()">🏆 Leaderboard</button>
+                    </div>
+                    <div class="menu-item">
+                        <button class="btn btn-secondary" onclick="showAbout()">📖 How to Play</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen">
+            <div class="game-header">
+                <div class="player-info">
+                    <span id="player-name-display"></span>
+                </div>
+                <div class="game-stats">
+                    <div class="stat">
+                        <div class="stat-label">Score</div>
+                        <div class="stat-value" id="score-display">0</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Accuracy</div>
+                        <div class="stat-value" id="accuracy-display">-</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Cards</div>
+                        <div class="stat-value" id="cards-display">0</div>
+                    </div>
+                </div>
+                <button class="btn btn-small" onclick="quitGame()">❌ Quit</button>
+            </div>
+            
+            <div class="card-container">
+                <div class="card" id="game-card">
+                    <div class="card-header">
+                        <span class="difficulty" id="difficulty-badge"></span>
+                        <h2 class="card-title" id="card-title"></h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        <p class="card-description" id="card-description"></p>
+                        <p class="card-impact"><strong>💡 Impact:</strong> <span id="card-impact"></span></p>
+                    </div>
+                    
+                    <div class="card-answers" id="answers-container"></div>
+                </div>
+            </div>
+            
+            <div id="result-panel" class="result-panel hidden">
+                <div class="result-content">
+                    <h3 id="result-title"></h3>
+                    <p id="result-message"></p>
+                    <p class="result-points">+<span id="points-earned">0</span> points</p>
+                    <div class="result-explanation" id="result-explanation"></div>
+                    <button class="btn btn-primary" onclick="nextCard()">➡️ Next Card</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Leaderboard Screen -->
+        <div id="leaderboard-screen" class="screen">
+            <div class="header">
+                <h1>🏆 Leaderboard</h1>
+            </div>
+            
+            <div class="leaderboard-content">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Score</th>
+                            <th>Accuracy</th>
+                            <th>Cards</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body">
+                        <tr><td colspan="5" class="loading">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="backToMenu()">🏠 Back to Menu</button>
+            </div>
+        </div>
+        
+        <!-- About/Instructions Screen -->
+        <div id="about-screen" class="screen">
+            <div class="header">
+                <h1>📖 How to Play</h1>
+            </div>
+            
+            <div class="about-content">
+                <h2>Game Overview</h2>
+                <p>You'll face supply chain strategy challenges. Pick the best answer from 4 options!</p>
+                
+                <h2>Difficulty Levels</h2>
+                <div class="difficulty-guide">
+                    <div class="diff-item">
+                        <span class="difficulty easy">EASY</span>
+                        <p>1-3 points • Beginner scenarios • Good for learning</p>
+                    </div>
+                    <div class="diff-item">
+                        <span class="difficulty intermediate">INTERMEDIATE</span>
+                        <p>4-6 points • Challenging decisions • Real business problems</p>
+                    </div>
+                    <div class="diff-item">
+                        <span class="difficulty hard">HARD</span>
+                        <p>7-10 points • Executive-level • Highest rewards!</p>
+                    </div>
+                </div>
+                
+                <h2>Scoring</h2>
+                <ul>
+                    <li><strong>Base Points:</strong> Earn points for each correct answer</li>
+                    <li><strong>Streak Bonus:</strong> Get 3+ correct in a row for multiplier bonuses!</li>
+                    <li><strong>Ranking:</strong> Based on score, accuracy, and cards played</li>
+                </ul>
+                
+                <h2>Winning Strategy</h2>
+                <ul>
+                    <li>Mix difficulties to stay challenged</li>
+                    <li>Read explanations to learn real supply chain insights</li>
+                    <li>Build long streaks for bonus multipliers</li>
+                    <li>Accuracy matters for ranking!</li>
+                </ul>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="backToMenu()">🏠 Back to Menu</button>
+            </div>
+        </div>
+        
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen">
+            <div class="header">
+                <h1>🏁 Game Over!</h1>
+            </div>
+            
+            <div class="results-content">
+                <div class="final-score-box">
+                    <h2 id="final-player-name"></h2>
+                    <div class="score-display">
+                        <div class="score-number" id="final-score">0</div>
+                        <div class="score-label">POINTS</div>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-label">Accuracy</div>
+                        <div class="stat-value" id="final-accuracy">0%</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Cards Played</div>
+                        <div class="stat-value" id="final-cards">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Cards Won</div>
+                        <div class="stat-value" id="final-won">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Streak Bonus</div>
+                        <div class="stat-value" id="final-bonus">0</div>
+                    </div>
+                </div>
+                
+                <div class="rank-display">
+                    <h3>Your Rank</h3>
+                    <p id="final-rank" class="rank-number">Loading...</p>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="backToMenu()">🏠 Play Again</button>
+                <button class="btn btn-secondary" onclick="showLeaderboard()">🏆 View Leaderboard</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+</body>
+</html>
